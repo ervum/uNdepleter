@@ -1,4 +1,4 @@
-# uNdepleter
+# ✨ uNdepleter
 [![Programming Language](https://img.shields.io/badge/python-3.9%20|%203.10%20|%203.11-0078d7.svg?color=%23fff&logo=Python&logoColor=%23fff&style=for-the-badge)](https://en.wikipedia.org/wiki/Python_(programming_language)) [![Operating System](https://img.shields.io/badge/platform-Windows%20|%20Mac%20|%20Linux-0078d7.svg?color=%23fff&logo=Windows&logoColor=%23fff&style=for-the-badge)](https://en.wikipedia.org/wiki/Operating_system) [![Architecture](https://img.shields.io/badge/architecture-x86%20|%20x64%20|%20x32-%23fff.svg?color=%23fff&logo=Aurelia&logoColor=%23fff&style=for-the-badge)](https://en.wikipedia.org/wiki/Instruction_set_architecture) 
 
 ## 🚀 Getting Started
