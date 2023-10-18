@@ -1,8 +1,8 @@
-# This was done in a haste and improvements can be made. Make a pull request if you want to contribute.
+# This was done in a haste and improvements can be made. Make a pull request if you want to contribute. Any help is appreciated.
 
 
 
-### Imports ###
+### Libraries ###
 import win10toast as W10T
 import linecache as LNC
 import subprocess as SP
