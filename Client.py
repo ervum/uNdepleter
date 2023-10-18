@@ -1,4 +1,4 @@
-# This was done in a haste and improvements can be made. Make a pull request if you want to contribute.
+# This was done in a haste and improvements can be made. Make a pull request if you want to contribute. Any help is appreciated.
 
 
 
@@ -15,6 +15,11 @@ import json as JSON
 import time as Task
 import ctypes as CT
 import os as OS
+
+
+
+### Presentation ###
+print('  __  __     __     __     ______     ______     ______    __         ______     ______    ______     ______ \n /\ \/\ \   /\ \   /\ \   /\  __ \   /\  ___\   /\  <> \  /\ \       /\  ___\   /\__  _\  /\  ___\   /\  <> \ \n \ \ \_\ \  \ \ \  \ \ \  \ \ \_\ \  \ \  __\   \ \  _ /  \ \ \____  \ \  __\   \/_/\ \/  \ \  __\   \ \  _ <_\n  \ \_____\  \ \_\  \ \_\  \ \____/   \ \_____\  \ \_\/    \ \_____\  \ \_____\    \ \_\   \ \_____\  \ \_\ \_\ \n   \______/   \__/   \/_/   \_____/    \______/   \__/      \______/   \______/     \__/    \______/   \__/\/_/ \n \n Press Shift + S at any time to change your settings. \n Press Alt + S at any time to see your statistics. \n\n\n')
 
 
 
@@ -61,11 +66,6 @@ OutletLocalKey = 'None'
 TimesPlugged = 0
 TimesUnplugged = 0
 TimesStable = 0
-
-
-
-### Presentation ###
-print('  __  __     __     __     ______     ______     ______    __         ______     ______    ______     ______ \n /\ \/\ \   /\ \   /\ \   /\  __ \   /\  ___\   /\  <> \  /\ \       /\  ___\   /\__  _\  /\  ___\   /\  <> \ \n \ \ \_\ \  \ \ \  \ \ \  \ \ \_\ \  \ \  __\   \ \  _ /  \ \ \____  \ \  __\   \/_/\ \/  \ \  __\   \ \  _ <_\n  \ \_____\  \ \_\  \ \_\  \ \____/   \ \_____\  \ \_\/    \ \_____\  \ \_____\    \ \_\   \ \_____\  \ \_\ \_\ \n   \______/   \__/   \/_/   \_____/    \______/   \__/      \______/   \______/     \__/    \______/   \__/\/_/ \n \n Press Shift + S at any time to change your settings. \n Press Alt + S at any time to see your statistics. \n\n\n')
 
 
 
