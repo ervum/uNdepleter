@@ -11,15 +11,10 @@ import keyboard as KB
 import datetime as DT
 import psutil as PSU
 import sys as System
+import time as Time
 import json as JSON
-import time as Task
 import ctypes as CT
 import os as OS
-
-
-
-### Presentation ###
-print('  __  __     __     __     ______     ______     ______    __         ______     ______    ______     ______ \n /\ \/\ \   /\ \   /\ \   /\  __ \   /\  ___\   /\  <> \  /\ \       /\  ___\   /\__  _\  /\  ___\   /\  <> \ \n \ \ \_\ \  \ \ \  \ \ \  \ \ \_\ \  \ \  __\   \ \  _ /  \ \ \____  \ \  __\   \/_/\ \/  \ \  __\   \ \  _ <_\n  \ \_____\  \ \_\  \ \_\  \ \____/   \ \_____\  \ \_\/    \ \_____\  \ \_____\    \ \_\   \ \_____\  \ \_\ \_\ \n   \______/   \__/   \/_/   \_____/    \______/   \__/      \______/   \______/     \__/    \______/   \__/\/_/ \n \n Press Shift + S at any time to change your settings. \n Press Alt + S at any time to see your statistics. \n\n\n')
 
 
 
@@ -46,7 +41,7 @@ MinLevel = 25
 MaxLevel = 75
 
 CheckFrequency = 60
-ThreadSlept = CheckFrequency
+ThreadSlept = 0
 
 Notify = True
 Flash = True
@@ -66,6 +61,7 @@ OutletLocalKey = 'None'
 TimesPlugged = 0
 TimesUnplugged = 0
 TimesStable = 0
+RanFor = 0
 
 
 
@@ -295,6 +291,19 @@ def RetrieveBattery():
     except Exception as Err:
         CacheError(Err, '[V] Unexpected error')
 
+def RetrieveStatistics(Action: str, Times: int):
+    if Times < 0:
+        ConsoleLog('STATS ', f'Bro, why even bother hacking this...? Was {Action} {Times} times, if you still want to know.')
+    
+    elif Times == 0:
+        ConsoleLog('STATS ', f'Your PC has not yet been {Action} [by uNdepleter].')
+
+    elif Times == 1:
+        ConsoleLog('STATS ', f'Your PC was {Action} [by uNdepleter] {Times} time.')
+
+    elif Times > 1:
+        ConsoleLog('STATS ', f'Your PC was {Action} [by uNdepleter] {Times} times.')
+
 def RetrieveTime():
     try:
         return DT.datetime.now().strftime('%m/%d, %H:%M:%S.%f')[:-3]
@@ -304,30 +313,27 @@ def RetrieveTime():
 
         return 'UNKNOWN'
 
-def RetrieveStatistics(Action: str, Times: int):
-    if Times < 0:
-        ConsoleLog('INFO  ', f'Bro, why even bother hacking this...? Was {Action} {Times} times, if you still want to know.')
+def FormatTime(Seconds):
+    Hours, Remainder = divmod(Seconds, 3600)
+    Minutes, Seconds = divmod(Remainder, 60)
     
-    elif Times == 0:
-        ConsoleLog('INFO  ', f'Your PC has not yet been {Action} [by uNdepleter].')
+    FormattedTime = f'{Hours:02d}:{Minutes:02d}:{Seconds:02d}.000'
+    
+    return FormattedTime
 
-    elif Times == 1:
-        ConsoleLog('INFO  ', f'Your PC was {Action} [by uNdepleter] {Times} time.')
 
-    elif Times > 1:
-        ConsoleLog('INFO  ', f'Your PC was {Action} [by uNdepleter] {Times} times.')
 
+### Presentation ###
+print('  __  __     __     __     ______     ______     ______    __         ______     ______    ______     ______ \n /\ \/\ \   /\ \   /\ \   /\  __ \   /\  ___\   /\  <> \  /\ \       /\  ___\   /\__  _\  /\  ___\   /\  <> \ \n \ \ \_\ \  \ \ \  \ \ \  \ \ \_\ \  \ \  __\   \ \  _ /  \ \ \____  \ \  __\   \/_/\ \/  \ \  __\   \ \  _ <_\n  \ \_____\  \ \_\  \ \_\  \ \____/   \ \_____\  \ \_\/    \ \_____\  \ \_____\    \ \_\   \ \_____\  \ \_\ \_\ \n   \______/   \__/   \/_/   \_____/    \______/   \__/      \______/   \______/     \__/    \______/   \__/\/_/ \n')
+
+print(' Run \'python -m tinytuya scan\', \'python -m tinytuya wizard\' after setting up at the Tuya IoT Cloud.')
+print(' Press Shift + S to change your settings. Press Alt + S to see your statistics.')
+print('\n\n\n')
 
 
 ### Functionality ###
-Data = ReadCache('Configuration', 'Settings', {
-    'BatteryCheckFrequency': CheckFrequency,
-    'MinimumBatteryLevel': MinLevel,
-    'MaximumBatteryLevel': MaxLevel,
-    'NotifyingAllowed': Notify,
-    'FlashingAllowed': Flash,
-})
-ThreadSlept = int(Data['BatteryCheckFrequency'])
+CT.windll.kernel32.SetConsoleTitleW('uNdepleter')
+OS.chdir(OS.path.dirname(OS.path.abspath(__file__)))
 
 while True:
     try:
@@ -342,8 +348,9 @@ while True:
             'Stable': TimesStable,
             'Plugged': TimesPlugged,
             'Unplugged': TimesUnplugged,
+            'Ran': RanFor,
         })
-        TimesStable, TimesPlugged, TimesUnplugged = int(Data['Stable']), int(Data['Plugged']), int(Data['Unplugged'])
+        TimesStable, TimesPlugged, TimesUnplugged, RanFor = int(Data['Stable']), int(Data['Plugged']), int(Data['Unplugged']), int(Data['Ran'])
 
         Data = ReadCache('Configuration', 'Settings', {
             'BatteryCheckFrequency': CheckFrequency,
@@ -390,6 +397,7 @@ while True:
                 RetrieveStatistics('checked as battery-stable', TimesStable)
                 RetrieveStatistics('plugged', TimesPlugged)
                 RetrieveStatistics('unplugged', TimesUnplugged)
+                ConsoleLog('STATS ', f'uNdepleter ran for {FormatTime(RanFor)}.')
                 
             elif KB.is_pressed('c') and InputMode:
                 InputMode = False
@@ -403,16 +411,25 @@ while True:
                     ConsoleLog('STABLE', f'Your battery is currently at {PercentText}% and {PluggedText}. Nothing will be done.')
 
                     TimesStable += 1
+                    RanFor += ThreadSlept
                     
                 elif Percent <= MinLevel and not Plugged:  
                     ConsoleLog('LOW   ', f'Your battery is currently at {PercentText}% and {PluggedText}. Plugging now.')
-                    Outlet.turn_on()
-    
+                    
+                    if Outlet.turn_on(1, False) is None:
+                        ConsoleLog('LOW   ', 'Couldn\'t turn charger on. Please try disconnecting it and connecting it back again.')
+                        ConsoleLog('LOW   ', 'If the problem persists, don\'t hesitate to contact support at the GitHub repository.')
+                        NotifyError()
+                    
                     TimesPlugged += 1
 
                 elif Percent >= MaxLevel and Plugged:  
                     ConsoleLog('HIGH  ', f'Your battery is currently at {PercentText}% and {PluggedText}. Unplugging now.')
-                    Outlet.turn_off()
+                    
+                    if Outlet.turn_off(1, False) is None:
+                        ConsoleLog('HIFH  ', 'Couldn\'t turn charger off. Please try disconnecting it and connecting it back again.')
+                        ConsoleLog('HIGH  ', 'If the problem persists, don\'t hesitate to contact support at the GitHub repository.')
+                        NotifyError()
 
                     TimesUnplugged += 1 
 
@@ -420,6 +437,7 @@ while True:
                     'Stable': TimesStable,
                     'Plugged': TimesPlugged,
                     'Unplugged': TimesUnplugged,
+                    'Ran': RanFor,
                 })
 
                 if InputMode:
@@ -432,5 +450,5 @@ while True:
     except Exception as Err:
         CacheError(Err, '[VIII] Unexpected error')
 
-    ThreadSlept += 0.3
-    Task.sleep(0.3)
+    ThreadSlept += 0.2
+    Time.sleep(0.2)
