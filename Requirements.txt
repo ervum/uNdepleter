@@ -1,0 +1,18 @@
+# Install Python 3.11.0
+https://www.python.org/ftp/python/3.11.0/python-3.11.0-amd64.exe
+
+
+
+# Install Python packages
+win10toast
+tinytuya
+linecache
+subprocess
+keyboard
+datetime
+psutil
+sys
+time
+json
+ctypes
+os
