@@ -5,17 +5,11 @@
 ### Libraries ###
 import win10toast as W10T
 import linecache as LNC
-import subprocess as SP
 import datetime as DT
 import sys as System
-import ctypes as CT
 import json as JSON
+import ctypes as CT
 import os as OS
-
-
-
-### Presentation ###
-print('  __  __     __     __     ______     ______     ______    __         ______     ______    ______     ______ \n /\ \/\ \   /\ \   /\ \   /\  __ \   /\  ___\   /\  <> \  /\ \       /\  ___\   /\__  _\  /\  ___\   /\  <> \ \n \ \ \_\ \  \ \ \  \ \ \  \ \ \_\ \  \ \  __\   \ \  _ /  \ \ \____  \ \  __\   \/_/\ \/  \ \  __\   \ \  _ <_\n  \ \_____\  \ \_\  \ \_\  \ \____/   \ \_____\  \ \_\/    \ \_____\  \ \_____\    \ \_\   \ \_____\  \ \_\ \_\ \n   \______/   \__/   \/_/   \_____/    \______/   \__/      \______/   \______/     \__/    \______/   \__/\/_/ \n \n Changing your settings. An empty value makes the setting remain unchanged. \n Close this window to cancel all changes. \n\n\n')
 
 
 
@@ -47,7 +41,7 @@ DefaultCheckFrequency = 60
 DefaultMinLevel = 20
 DefaultMaxLevel = 80
 
-CredentialsMessage = 'What is your TUYA\'s Smart Outlet\'s'
+CredentialsMessage = 'What is your TUYA Smart Outlet\'s'
 NotificationMessage = 'Should the APP be allowed to'
 LevelMessage = 'Which battery level should trigger the Smart Outlet'
 
@@ -275,7 +269,19 @@ def RetrieveTime():
 
 
 
+### Presentation ###
+print('  __  __     __     __     ______     ______     ______    __         ______     ______    ______     ______ \n /\ \/\ \   /\ \   /\ \   /\  __ \   /\  ___\   /\  <> \  /\ \       /\  ___\   /\__  _\  /\  ___\   /\  <> \ \n \ \ \_\ \  \ \ \  \ \ \  \ \ \_\ \  \ \  __\   \ \  _ /  \ \ \____  \ \  __\   \/_/\ \/  \ \  __\   \ \  _ <_\n  \ \_____\  \ \_\  \ \_\  \ \____/   \ \_____\  \ \_\/    \ \_____\  \ \_____\    \ \_\   \ \_____\  \ \_\ \_\ \n   \______/   \__/   \/_/   \_____/    \______/   \__/      \______/   \______/     \__/    \______/   \__/\/_/ \n')
+
+print(' Changing your settings. An empty value means it will remain unchanged.')
+print(' Close this window to cancel all changes.')
+print('\n\n\n')
+
+
+
 ### Functionality ###
+CT.windll.kernel32.SetConsoleTitleW('uNdepleter | Input Mode')
+OS.chdir(OS.path.dirname(OS.path.abspath(__file__)))
+
 try:
     Timestamp = RetrieveTime()
     TimestampText = Timestamp.replace(':', '.')
